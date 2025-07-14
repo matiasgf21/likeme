@@ -13,13 +13,7 @@ allowExitOnIdle: true,
 });
 
 
-const getDate = async () =>{
-    const result = await pool.query("SELECT NOW()")
 
-    console.log(result.rows);
-}
-
-getDate();
 
 
 const obtenerPosts = async () => {
@@ -43,4 +37,21 @@ console.log("Publicacion agregada correctamente", result.rowCount);
 }
 
 
-export { obtenerPosts, agregarPosts };
+const eliminarPost = async (id) => {
+  const consulta = "DELETE FROM posts WHERE id = $1";
+  const values = [id];
+  await pool.query(consulta, values);
+};
+
+const editarPost = async (id, titulo, img, descripcion) => {
+  const consulta = `
+    UPDATE posts 
+    SET titulo = $1, img = $2, descripcion = $3 
+    WHERE id = $4
+  `;
+  const values = [titulo, img, descripcion, id];
+  await pool.query(consulta, values);
+};
+
+
+export { obtenerPosts, agregarPosts, eliminarPost, editarPost };

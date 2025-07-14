@@ -34,6 +34,16 @@ function App() {
     getPosts();
   };
 
+
+  const editarPost = async (id, titulo, img, descripcion) => {
+  await axios.put(urlBaseServer + `/posts/${id}`, {
+    titulo,
+    img,
+    descripcion
+  });
+  getPosts();
+};
+
   useEffect(() => {
     getPosts();
   }, []);
@@ -60,6 +70,7 @@ function App() {
               post={post}
               like={like}
               eliminarPost={eliminarPost}
+              editarPost={editarPost}
             />
           ))}
         </div>
